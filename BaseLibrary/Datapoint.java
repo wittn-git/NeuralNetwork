@@ -1,3 +1,4 @@
+package BaseLibrary;
 public class Datapoint {
     
     float[] inputs, labels;
