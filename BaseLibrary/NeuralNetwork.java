@@ -47,22 +47,15 @@ public class NeuralNetwork{
         return outputs;
     }
 
-    public void train(int epoches, Datapoint[] trainingData, Datapoint[] testData){
+    public void train(int epoches, Datapoint[] trainingData){
         for(int i=0; i<epoches; i++){
             float errorsum = 0;
             for(Datapoint datapoint: trainingData){
+            //for(int j=0; j<trainingData.length; j++){
+                //trainPoint(trainingData[i].inputs, trainingData[i].labels); 
                 errorsum += trainPoint(datapoint.inputs, datapoint.labels);
             }
             System.out.println(String.format("Epoche %d: %f errorrate", i, errorsum/trainingData.length));
-        }
-        System.out.println();
-        int rightAnswers = 0;
-        for(int i=0; i<testData.length; i++){
-            System.out.println(String.format("Testpoint %d, value %f, prediction %f", i, testData[i].labels[0], feedforward(testData[i].inputs)[0]));
-            if(testData[i].labels[0] == feedforward(testData[i].inputs)[0]){
-                rightAnswers++;
-            }
-            System.out.println(String.format("Correct perc.: %f", (((float)1/(i+1))*rightAnswers)));
         }
     }
 

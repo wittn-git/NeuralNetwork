@@ -14,14 +14,20 @@ public class Main {
             trainingData[i] = new Datapoint(new float[]{x, y}, new float[]{f(x, y)});
         }   
 
+        nn.train(100, trainingData);
+
         Datapoint[] testData = new Datapoint[50];
         for(int i=0; i<testData.length; i++){
             int x = random.nextInt(2);
             int y = random.nextInt(2);
             testData[i] = new Datapoint(new float[]{x, y}, new float[]{f(x, y)});
         }   
-
-        nn.train(100, trainingData, testData);
+        
+        System.out.println("Testing");
+        for(Datapoint datapoint: testData){
+            System.out.println(String.format("Predicted: %f, correct: %f", nn.feedforward(datapoint.inputs), datapoint.labels[0]));
+        }
+        
         
     }
 
