@@ -1,12 +1,10 @@
 package BaseLibrary;
-import java.util.function.Function;
 
 public class NeuralNetwork{
 
     private float learningRate;
     private Matrix weigthsIH, weigthsHO, biasH, biasO;
-    //sigmoid function used as the activation function
-    private Function<Float, Float> sig;
+    Function sig, derivSig;
 
     public NeuralNetwork(int inputNodes, int hiddenNodes, int outputNodes, float learningRate){
         this.learningRate = learningRate;
@@ -21,9 +19,8 @@ public class NeuralNetwork{
         biasO = new Matrix(outputNodes, 1);
         biasO.randomize(-1, 1);
 
-        sig = (x) ->  {
-            return (float) (1 / (1+Math.exp(-x)));
-        };
+        sig = new Sigmoid();
+        derivSig = new DerivatedSigmoid();
     }
 
     //neural network process for given input, returns outputs (depended on number of outputs)
@@ -85,12 +82,6 @@ public class NeuralNetwork{
         hiddenMatrix = Matrix.add(hiddenMatrix, biasH);
         hiddenMatrix = Matrix.map(hiddenMatrix, sig);
         Matrix transposedHiddenMatrix = Matrix.transpose(hiddenMatrix);
-
-        //deriviation of sigmoid
-        //as this is used for the outputvector and the hiddenoutput, to both of which sig as been applied, the sig(x) part of the derivation has been omitted
-        Function<Float, Float> derivSig = (x) -> {
-            return x * (1-sig.apply(x));
-        };
 
         //calculate differences for the weights to be applied to correct the weights
         //formula : learningrate *(scalar) errorvector *(hadamard) derivated activation function of output *(matrix multiplication) inputvector^T

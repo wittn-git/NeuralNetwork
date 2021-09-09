@@ -25,7 +25,7 @@ public class Main {
         
         System.out.println("Testing");
         for(Datapoint datapoint: testData){
-            System.out.println(String.format("Predicted: %f, correct: %f", nn.feedforward(datapoint.inputs), datapoint.labels[0]));
+            System.out.println(String.format("Predicted: %f, correct: %f", nn.feedforward(datapoint.inputs)[0], datapoint.labels[0]));
         }
         
         

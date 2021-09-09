@@ -1,6 +1,5 @@
 package BaseLibrary;
 import java.util.Random;
-import java.util.function.Function;
 
 public class Matrix {
 
@@ -19,7 +18,7 @@ public class Matrix {
         }
     }
 
-    //substiture entry i,j with value
+    //substitute entry i,j with value
     public void put(int i, int j, float value){
         values[i][j] = value;
     }
@@ -92,11 +91,11 @@ public class Matrix {
     }
 
     //apply function to every entry of matrix
-    public static Matrix map(Matrix matrix1, Function<Float, Float> function){
+    public static Matrix map(Matrix matrix1, Function function){
         Matrix result = new Matrix(matrix1.m, matrix1.n);
         for(int i=0; i<matrix1.m; i++){
             for(int j=0; j<matrix1.n; j++){
-                result.put(i, j, function.apply(matrix1.get(i, j)));
+                result.put(i, j, function.f(matrix1.get(i, j)));
             }
         }
         return result;
