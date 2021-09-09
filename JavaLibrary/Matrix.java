@@ -1,4 +1,4 @@
-package BaseLibrary;
+package JavaLibrary;
 import java.util.Random;
 
 public class Matrix {

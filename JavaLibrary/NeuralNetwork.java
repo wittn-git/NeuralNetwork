@@ -1,4 +1,4 @@
-package BaseLibrary;
+package JavaLibrary;
 
 public class NeuralNetwork{
 

@@ -1,10 +1,11 @@
-package BaseLibrary;
+package JavaLibrary;
 
 import java.util.Arrays;
 
 public class Datapoint {
     
-    float[] inputs, labels;
+    float[] inputs;
+    float[] labels;
 
     public Datapoint(float[] inputs, float[] labels){
         this.inputs = inputs;
@@ -13,6 +14,14 @@ public class Datapoint {
 
     public String toString(){
         return String.format("Inputs: %s | Label: %s", Arrays.toString(inputs), Arrays.toString(labels));
+    }
+
+    public float[] getInputs(){
+        return inputs;
+    }
+
+    public float[] getLabels(){
+        return labels;
     }
 
 }

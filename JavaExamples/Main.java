@@ -1,6 +1,9 @@
-package BaseLibrary;
+package JavaExamples;
 import java.util.Arrays;
 import java.util.Random;
+
+import JavaLibrary.Datapoint;
+import JavaLibrary.NeuralNetwork;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,8 +26,8 @@ public class Main {
        
         System.out.println("Testing");
         for(Datapoint datapoint: testData){
-            float[] prediction = nn.feedforward(datapoint.inputs);
-            System.out.println(String.format("Predicted: %s, correct: %s", Arrays.toString(prediction), Arrays.toString(datapoint.labels)));
+            float[] prediction = nn.feedforward(datapoint.getInputs());
+            System.out.println(String.format("Predicted: %s, correct: %s", Arrays.toString(prediction), Arrays.toString(datapoint.getLabels())));
             System.out.println(datapoint.toString());
             System.out.println();
         }

@@ -1,4 +1,4 @@
-package BaseLibrary;
+package JavaLibrary;
 
 public interface Function {
     abstract float f(float x);   
