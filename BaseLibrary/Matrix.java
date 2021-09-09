@@ -40,11 +40,11 @@ public class Matrix {
     //randomize every entry of matrix
     public void randomize(int lowerbound, int upperbound){
         Random random = new Random();
-        random.setSeed(90);
+        //random.setSeed(91);
         for(int i=0; i<m; i++){
             for(int j=0; j<n; j++){
-                //values[i][j] = lowerbound + random.nextFloat() * (upperbound - lowerbound);
-                values[i][j] = random.nextInt(10)-5;
+                values[i][j] = lowerbound + random.nextFloat() * (upperbound - lowerbound);
+                //values[i][j] = random.nextInt(10)-5;
             }
         }
     }

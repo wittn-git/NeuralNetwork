@@ -3,7 +3,7 @@ package BaseLibrary;
 public class NeuralNetwork{
 
     private float learningRate;
-    private Matrix weigthsIH, weigthsHO, biasH, biasO;
+    Matrix weigthsIH, weigthsHO, biasH, biasO;
     Function sig, derivSig;
 
     public NeuralNetwork(int inputNodes, int hiddenNodes, int outputNodes, float learningRate){
@@ -62,7 +62,7 @@ public class NeuralNetwork{
         Matrix guessVector = new Matrix(1, guess.length);
         guessVector.toVectorColumn(guess);
 
-        //convert labels in matrix
+        //convert labels into matrix
         Matrix labelVector = new Matrix(1, labels.length);
         labelVector.toVectorColumn(labels);
 
@@ -87,18 +87,18 @@ public class NeuralNetwork{
         //formula : learningrate *(scalar) errorvector *(hadamard) derivated activation function of output *(matrix multiplication) inputvector^T
         //add the deltas to the weights
         //add the deltas without the transposed inputvectors to the biases to adjust those
-        Matrix delta_weightsHO = Matrix.scale(outputErrorVector, learningRate);
-        Matrix derivSig_OutputHO = Matrix.map(guessVector, derivSig); 
-        delta_weightsHO = Matrix.hadamard_product(delta_weightsHO, derivSig_OutputHO);
-        biasO = Matrix.add(biasO, delta_weightsHO);
-        delta_weightsHO = Matrix.multiply(delta_weightsHO, transposedHiddenMatrix);
+        Matrix gradients = Matrix.map(guessVector, derivSig); 
+        gradients = Matrix.hadamard_product(gradients, outputErrorVector);
+        gradients = Matrix.scale(gradients, learningRate);
+        Matrix delta_weightsHO = Matrix.multiply(gradients, transposedHiddenMatrix);
+        biasO = Matrix.add(biasO, gradients);
         weigthsHO = Matrix.add(weigthsHO, delta_weightsHO);
 
-        Matrix delta_weightsIH = Matrix.scale(hiddenErrorVector, learningRate);
-        Matrix derivSig_OutputIH = Matrix.map(hiddenMatrix, derivSig); //some output
-        delta_weightsIH = Matrix.hadamard_product(delta_weightsIH, derivSig_OutputIH);
-        biasH = Matrix.add(biasH, delta_weightsIH);
-        delta_weightsIH = Matrix.multiply(delta_weightsIH, transposedInputVector);
+        Matrix hiddenGradients = Matrix.map(hiddenMatrix, derivSig); 
+        hiddenGradients = Matrix.hadamard_product(hiddenGradients, hiddenErrorVector);
+        hiddenGradients = Matrix.scale(hiddenGradients, learningRate);
+        Matrix delta_weightsIH = Matrix.multiply(hiddenGradients, transposedInputVector);
+        biasH = Matrix.add(biasH, hiddenGradients);
         weigthsIH = Matrix.add(weigthsIH, delta_weightsIH);
 
         //return error rate probably

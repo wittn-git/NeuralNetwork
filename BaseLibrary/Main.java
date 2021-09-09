@@ -1,41 +1,47 @@
 package BaseLibrary;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
 
-        NeuralNetwork nn = new NeuralNetwork(2, 1, 1, 0.1f);
+        NeuralNetwork nn = new NeuralNetwork(2, 4, 1, 0.05f);
 
-        Random random = new Random();
-        Datapoint[] trainingData = new Datapoint[250];
+        Random r = new Random();   
+
+        Datapoint[] trainingData = new Datapoint[1000];
         for(int i=0; i<trainingData.length; i++){
-            int x = random.nextInt(2);
-            int y = random.nextInt(2);
-            trainingData[i] = new Datapoint(new float[]{x, y}, new float[]{f(x, y)});
+            trainingData[i] = getDatapoint(r);
         }   
 
-        nn.train(100, trainingData);
+        nn.train(2000, trainingData);
 
-        Datapoint[] testData = new Datapoint[50];
+        Datapoint[] testData = new Datapoint[10];
         for(int i=0; i<testData.length; i++){
-            int x = random.nextInt(2);
-            int y = random.nextInt(2);
-            testData[i] = new Datapoint(new float[]{x, y}, new float[]{f(x, y)});
-        }   
-        
+            testData[i] = getDatapoint(r);
+        }
+       
         System.out.println("Testing");
         for(Datapoint datapoint: testData){
-            System.out.println(String.format("Predicted: %f, correct: %f", nn.feedforward(datapoint.inputs)[0], datapoint.labels[0]));
+            float[] prediction = nn.feedforward(datapoint.inputs);
+            System.out.println(String.format("Predicted: %s, correct: %s", Arrays.toString(prediction), Arrays.toString(datapoint.labels)));
+            System.out.println(datapoint.toString());
+            System.out.println();
         }
-        
         
     }
 
-    public static int f(int x, int y){
-        if((x == 1 && y == 1)){
-            return 1;
+    public static Datapoint getDatapoint(Random r){
+        
+        float x = r.nextInt(2);
+        float y = r.nextInt(2);
+        int result;
+        if((x==0 && y==1) || (x==1 && y==0)){
+            result = 1;
+        }else{
+            result = 0;
         }
-        return 0;
+        return new Datapoint(new float[]{x,y}, new float[]{result});
     }
 
 }
